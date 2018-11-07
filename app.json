@@ -1,0 +1,7 @@
+{
+    "name": "Final Project | Kyle A. Carter | ICT 4540 - XML & Data in Application Development",
+    "description": "A simple PHP app for processing an XML file.",
+    "repository": "https://github.com/kylecarter/ict-4540-xml-data-app-dvlpmnt",
+    "addons": ["xsl"]
+  }
+  
