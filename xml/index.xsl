@@ -51,6 +51,7 @@
                 <div class="content"><div class="content-container">
                     <main><article class="main-container">
                         <h2>Demographic statistics broken down by zip code</h2>
+                        <p>Select a postal code to learn more about the demographics.</p>
                         <nav><ul class="list-unstyled list-cards">
                             <xsl:for-each select="response/row/row">
                                 <xsl:sort select="jurisdiction_name"/>
@@ -92,8 +93,54 @@
         <xsl:if test="$q = ''"><xsl:choose>
             <xsl:when test="count_participants &gt; 0"><xsl:variable name="postal_code"><xsl:value-of select="jurisdiction_name" /></xsl:variable>
             <li>
-                <h3><a href="/?q={$postal_code}"><xsl:value-of select="$postal_code" /> <span class="fas fa-chevron-right" role="icon" aria-hidden="hidden"></span></a></h3>
-                <p><strong>Total Participants:</strong> <xsl:value-of select="count_participants" /></p>
+                <xsl:variable name="count_pacific_islander">
+                    <xsl:value-of select="count(
+                        count_pacific_islander[number(.) &gt; 0]
+                    )" />
+                </xsl:variable>
+                <xsl:variable name="count_hispanic_latino">
+                    <xsl:value-of select="count(
+                        count_hispanic_latino[number(.) &gt; 0]
+                    )" />
+                </xsl:variable>
+                <xsl:variable name="count_american_indian">
+                    <xsl:value-of select="count(
+                        count_american_indian[number(.) &gt; 0]
+                    )" />
+                </xsl:variable>
+                <xsl:variable name="count_asian_non_hispanic">
+                    <xsl:value-of select="count(
+                        count_asian_non_hispanic[number(.) &gt; 0]
+                    )" />
+                </xsl:variable>
+                <xsl:variable name="count_white_non_hispanic">
+                    <xsl:value-of select="count(
+                        count_white_non_hispanic[number(.) &gt; 0]
+                    )" />
+                </xsl:variable>
+                <xsl:variable name="count_black_non_hispanic">
+                    <xsl:value-of select="count(
+                        count_black_non_hispanic[number(.) &gt; 0]
+                    )" />
+                </xsl:variable>
+                <xsl:variable name="count_other_ethnicity">
+                    <xsl:value-of select="count(
+                        count_other_ethnicity[number(.) &gt; 0]
+                    )" />
+                </xsl:variable>
+                <xsl:variable name="count_demographics">
+                    <xsl:value-of select="
+                        $count_pacific_islander +
+                        $count_hispanic_latino +
+                        $count_american_indian +
+                        $count_asian_non_hispanic +
+                        $count_white_non_hispanic +
+                        $count_black_non_hispanic +
+                        $count_other_ethnicity
+                    " />
+                </xsl:variable>
+                <h3><a href="/?q={$postal_code}" title="Learn more about {$postal_code}." rel="bookmark"><xsl:value-of select="$postal_code" /> <span class="fas fa-chevron-right" role="icon" aria-hidden="hidden"></span></a></h3>
+                <p><strong><xsl:value-of select="count_participants" /></strong>respondents from <strong><xsl:value-of select="$count_demographics"/></strong>demographic[s].</p>
             </li></xsl:when><xsl:otherwise></xsl:otherwise>
         </xsl:choose></xsl:if>
         <xsl:if test="$q">
